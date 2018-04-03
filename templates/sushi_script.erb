@@ -22,7 +22,8 @@ NUM_RELEASES=$(ls -l <%= @vhost_root %>/"$vhost"/releases/ | grep -c ^d || true)
 if [ "$NUM_RELEASES" -eq 0 ]; then
 	RELEASE_DIR=<%= @vhost_root %>/"$vhost"/www/
 else
-	RELEASE_DIR=$(ls -td <%= @vhost_root %>/"$vhost"/releases/*/ | head -1 || true)
+	RELEASE_DIR_NAME=$(ls -l <%= @vhost_root %>/"$vhost"/releases/ | grep ^d | tail -1 | awk '{ print $NF }' || true)
+	RELEASE_DIR=<%= @vhost_root %>/"$vhost"/releases/"$RELEASE_DIR_NAME"
 fi
 
 if [ -f "$RELEASE_DIR"/framework/sake ]; then
